@@ -66,9 +66,11 @@ class WindowShow(QMainWindow,Ui_MainWindow):
             self.displayDirname.setText("已提取%d条样本特征!" %filenum)
 
     def train_and_predict(self):
+        #isKNN = 0
         if len(self.displayDirname.toPlainText()) != 0:
             if self.algorithmType.currentText() == "KNN":
                 clfs = KNeighborsClassifier()
+                #isKNN = 1
             elif self.algorithmType.currentText() == "朴素贝叶斯":
                 clfs = GaussianNB()
             elif self.algorithmType.currentText() == "决策树":
@@ -88,13 +90,15 @@ class WindowShow(QMainWindow,Ui_MainWindow):
             if self.peakPos.isChecked():
                 features.append(7)
 
-            acc = trainANDpredict(features,clfs)
-            self.displayAccuracy.setText("模型准确率为：%.4f" %acc)
+            if len(features) != 0:
+                acc = trainANDpredict(features,clfs)
+                #isKNN = 0
+                self.displayAccuracy.setText("模型准确率为：%.4f" %acc)
 
 
     def predict(self):
         # print(self.tableWidget.item(1,1).text())
-        if len(self.displayAccuracy.toPlainText()) != 0:
+        if len(self.displayAccuracy.toPlainText()) != 0 and len(self.displayFname.toPlainText()) != 0:
             testRoot = self.displayFname.toPlainText()
             feat, cate = predictTests(testRoot)
             # print(feat)
@@ -120,15 +124,15 @@ class WindowShow(QMainWindow,Ui_MainWindow):
                 features.append(7)
 
             # 必须是倒序，否则会出错
-            if not self.kurtosis.isChecked():
-                feat = np.delete(feat, 4)
-            if not self.skewness.isChecked():
-                feat = np.delete(feat, 3)
-            if not self.waveRate.isChecked():
-                feat = np.delete(feat, 2)
-            if not self.CV.isChecked():
-                feat = np.delete(feat, 1)
             if not self.peakPos.isChecked():
+                feat = np.delete(feat, 4)
+            if not self.kurtosis.isChecked():
+                feat = np.delete(feat, 3)
+            if not self.skewness.isChecked():
+                feat = np.delete(feat, 2)
+            if not self.waveRate.isChecked():
+                feat = np.delete(feat, 1)
+            if not self.CV.isChecked():
                 feat = np.delete(feat, 0)
             feat = feat.reshape(1, -1)
             # print(feat)

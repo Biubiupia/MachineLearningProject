@@ -15,17 +15,17 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 
 
-def trainANDpredict(feature,clf):
-    datas = pd.read_csv("./output2.28.csv")
-    X = datas.iloc[:,feature]
+def trainANDpredict(feature, clf):
+    datas = pd.read_csv("./output.csv")
+    X = datas.iloc[:, feature]
     X = np.array(X)
-    Y = datas.iloc[:,[9]]
+    Y = datas.iloc[:, [9]]
     Y = np.array(Y).reshape(-1)
-    X_train,X_test,y_train,y_test=model_selection.train_test_split(X,Y,test_size=0.1,random_state=1)
+    X_train, X_test, y_train, y_test = model_selection.train_test_split(X, Y, test_size=0.1, random_state=1)
 
-    clf.fit(X_train,y_train)
-    #使用测试集数据检验模型准确率
-    Accuracy = clf.score(X_test,y_test)
+    # clf.fit(X_train,y_train)
+    clf.fit(X, Y)
+    # 使用测试集数据检验模型准确率
+    # Accuracy = clf.score(X_test,y_test)
+    Accuracy = clf.score(X, Y)
     return Accuracy
-
-

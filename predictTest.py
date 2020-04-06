@@ -72,6 +72,6 @@ def predictTests(ROOT):
     arrPVR = np.array(arrPVR).reshape(-1)
 
     rst = pd.DataFrame(
-        {'peakPos': arrMaxWL, 'PVR': arrPVR,'waveRate': arrwaveRate, 'skew': arrSkew, 'kurtosis': arrKurtosis})
+        {'PVR': arrPVR, 'waveRate': arrwaveRate, 'skew': arrSkew, 'kurtosis': arrKurtosis, 'peakPos': arrMaxWL})
     testFeature = np.array(rst).reshape(-1)
     return testFeature, category
