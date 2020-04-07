@@ -38,7 +38,7 @@ class WindowShow(QMainWindow,Ui_MainWindow):
     def load_data(self):
         # 打开文件路径
         # 设置文件扩展名过滤,注意用双分号间隔
-        fname, ftype = QFileDialog.getOpenFileName(self,'OpenFile',"E:/datas/")
+        fname, ftype = QFileDialog.getOpenFileName(self,'OpenFile',"C:/")
         if len(fname) != 0:
             getTestData(fname)
             self.imagelabel.setPixmap(QtGui.QPixmap("./curve.jpg"))
@@ -49,7 +49,7 @@ class WindowShow(QMainWindow,Ui_MainWindow):
     def load_train(self):
         # 打开文件路径
         # 设置文件扩展名过滤,注意用双分号间隔
-        dirname = QFileDialog.getExistingDirectory(self,'OpenDir',"E:/datas/")
+        dirname = QFileDialog.getExistingDirectory(self,'OpenDir',"C:/")
         # print(dirname)
         if len(dirname) != 0:
             getFeatures(dirname)
@@ -66,17 +66,22 @@ class WindowShow(QMainWindow,Ui_MainWindow):
             self.displayDirname.setText("已提取%d条样本特征!" %filenum)
 
     def train_and_predict(self):
-        #isKNN = 0
+        # isKNN = 0
+        # print(len(self.plainTextEdit.toPlainText()))
+        if len(self.plainTextEdit.toPlainText()) != 0 and float(self.plainTextEdit.toPlainText()) > 0:
+            k = float(self.plainTextEdit.toPlainText())
+        else:
+            k = 1.0
         if len(self.displayDirname.toPlainText()) != 0:
             if self.algorithmType.currentText() == "KNN":
-                clfs = KNeighborsClassifier()
+                clfs = KNeighborsClassifier(n_neighbors=int(5*k))
                 #isKNN = 1
             elif self.algorithmType.currentText() == "朴素贝叶斯":
-                clfs = GaussianNB()
+                clfs = GaussianNB(var_smoothing=1e-9 * k)
             elif self.algorithmType.currentText() == "决策树":
-                clfs = tree.DecisionTreeClassifier(criterion ='entropy')
+                clfs = tree.DecisionTreeClassifier(criterion='entropy', min_samples_leaf=int(k+2))
             else:
-                clfs = svm.SVC(kernel='rbf',gamma=0.01,decision_function_shape='ovo',C=0.8)
+                clfs = svm.SVC(kernel='rbf', gamma=0.01, decision_function_shape='ovo', C=k)
 
             features = []
             if self.CV.isChecked():
@@ -91,9 +96,9 @@ class WindowShow(QMainWindow,Ui_MainWindow):
                 features.append(7)
 
             if len(features) != 0:
-                acc = trainANDpredict(features,clfs)
+                acc = trainANDpredict(features,clfs) * 100
                 #isKNN = 0
-                self.displayAccuracy.setText("模型准确率为：%.4f" %acc)
+                self.displayAccuracy.setText("模型准确率为：%.2f" %acc + "%")
 
 
     def predict(self):
@@ -102,14 +107,28 @@ class WindowShow(QMainWindow,Ui_MainWindow):
             testRoot = self.displayFname.toPlainText()
             feat, cate = predictTests(testRoot)
             # print(feat)
-            if self.algorithmType.currentText() == "KNN":
-                clfs = KNeighborsClassifier()
-            elif self.algorithmType.currentText() == "朴素贝叶斯":
-                clfs = GaussianNB()
-            elif self.algorithmType.currentText() == "决策树":
-                clfs = tree.DecisionTreeClassifier(criterion='entropy')
+            # if self.algorithmType.currentText() == "KNN":
+            #     clfs = KNeighborsClassifier()
+            # elif self.algorithmType.currentText() == "朴素贝叶斯":
+            #     clfs = GaussianNB()
+            # elif self.algorithmType.currentText() == "决策树":
+            #     clfs = tree.DecisionTreeClassifier(criterion='entropy')
+            # else:
+            #     clfs = svm.SVC(kernel='rbf', gamma=0.01, decision_function_shape='ovo', C=0.8)
+            if len(self.plainTextEdit.toPlainText()) != 0 and float(self.plainTextEdit.toPlainText()) > 0:
+                k = float(self.plainTextEdit.toPlainText())
             else:
-                clfs = svm.SVC(kernel='rbf', gamma=0.01, decision_function_shape='ovo', C=0.8)
+                k = 1.0
+            if len(self.displayDirname.toPlainText()) != 0:
+                if self.algorithmType.currentText() == "KNN":
+                    clfs = KNeighborsClassifier(n_neighbors=int(5 * k))
+                    # isKNN = 1
+                elif self.algorithmType.currentText() == "朴素贝叶斯":
+                    clfs = GaussianNB(var_smoothing=1e-9 * k)
+                elif self.algorithmType.currentText() == "决策树":
+                    clfs = tree.DecisionTreeClassifier(criterion='entropy', min_samples_leaf=int(k + 2))
+                else:
+                    clfs = svm.SVC(kernel='rbf', gamma=0.01, decision_function_shape='ovo', C=k)
 
             features = []
             if self.CV.isChecked():
