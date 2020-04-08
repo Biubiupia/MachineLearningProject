@@ -2,13 +2,11 @@
 
 # Form implementation generated from reading ui file 'software.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -103,10 +101,6 @@ class Ui_MainWindow(object):
         self.groupBox_5.setObjectName("groupBox_5")
         self.pushButton_6 = QtWidgets.QPushButton(self.groupBox_5)
         self.pushButton_6.setGeometry(QtCore.QRect(330, 190, 31, 31))
-        self.pushButton_6.setText("")
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../1考研/Button_Download.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_6.setIcon(icon)
         self.pushButton_6.setObjectName("pushButton_6")
         self.tableWidget = QtWidgets.QTableWidget(self.groupBox_5)
         self.tableWidget.setGeometry(QtCore.QRect(50, 60, 281, 161))
@@ -149,7 +143,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label_3.setText(_translate("MainWindow", "基于监督学习的团簇自动分类软件"))
+        self.label_3.setText(_translate("MainWindow", "团簇光谱分类器"))
         self.groupBox.setTitle(_translate("MainWindow", "训练区"))
         self.pushButton_3.setText(_translate("MainWindow", "提取特征"))
         self.pushButton_2.setText(_translate("MainWindow", "导入训练样本"))
@@ -174,6 +168,7 @@ class Ui_MainWindow(object):
         self.algorithmType.setItemText(3, _translate("MainWindow", "SVM"))
         self.label_4.setText(_translate("MainWindow", "参数k(默认为1)"))
         self.groupBox_5.setTitle(_translate("MainWindow", "结果区"))
+        self.pushButton_6.setText(_translate("MainWindow", "导出"))
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "文件名"))
         item = self.tableWidget.horizontalHeaderItem(1)
@@ -182,3 +177,4 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "真实分类"))
         self.pushButton_4.setText(_translate("MainWindow", "训练模型"))
         self.pushButton_5.setText(_translate("MainWindow", "预测样本"))
+

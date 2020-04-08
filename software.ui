@@ -44,7 +44,7 @@
      </font>
     </property>
     <property name="text">
-     <string>基于监督学习的团簇自动分类软件</string>
+     <string>团簇光谱分类器</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -359,11 +359,7 @@ p, li { white-space: pre-wrap; }
       </rect>
      </property>
      <property name="text">
-      <string/>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>../../1考研/Button_Download.ico</normaloff>../../1考研/Button_Download.ico</iconset>
+      <string>导出</string>
      </property>
     </widget>
     <widget class="QTableWidget" name="tableWidget">

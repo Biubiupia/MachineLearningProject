@@ -67,7 +67,10 @@ class WindowShow(QMainWindow,Ui_MainWindow):
 
     def train_and_predict(self):
         # isKNN = 0
-        # print(len(self.plainTextEdit.toPlainText()))
+        self.displayAccuracy.setText("")
+        if self.plainTextEdit.toPlainText().isdigit() == False and len(self.plainTextEdit.toPlainText()) != 0:
+            self.displayAccuracy.setText("参数k不合法，请输入数字！")
+            return
         if len(self.plainTextEdit.toPlainText()) != 0 and float(self.plainTextEdit.toPlainText()) > 0:
             k = float(self.plainTextEdit.toPlainText())
         else:
@@ -115,6 +118,9 @@ class WindowShow(QMainWindow,Ui_MainWindow):
             #     clfs = tree.DecisionTreeClassifier(criterion='entropy')
             # else:
             #     clfs = svm.SVC(kernel='rbf', gamma=0.01, decision_function_shape='ovo', C=0.8)
+            if self.plainTextEdit.toPlainText().isdigit() == False and len(self.plainTextEdit.toPlainText()) != 0:
+                self.displayAccuracy.setText("参数k不合法，请输入数字！")
+                return
             if len(self.plainTextEdit.toPlainText()) != 0 and float(self.plainTextEdit.toPlainText()) > 0:
                 k = float(self.plainTextEdit.toPlainText())
             else:
